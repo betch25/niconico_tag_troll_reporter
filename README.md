@@ -46,7 +46,7 @@ sh ~/Downloads/niconico_tag_troll_reporter-master/reporter_for_mac.sh <video_id>
 下記のように動画IDがまとめられたリストを引数に、list_loader_for_mac.shを実行してください。
 
 ```
-sh ~/Downloads/niconico_tag_troll_reporter/list_loader_for_mac.sh first_episode_video_id.list
+sh ~/Downloads/niconico_tag_troll_reporter-master/list_loader_for_mac.sh first_episode_video_id.list
 ```
 
 # License

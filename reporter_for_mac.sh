@@ -3,13 +3,18 @@ if [ $# -ne 1 ]; then
     echo "実行するには1個の引数が必要です。" 1>&2
     exit 1
  fi
-tag=$(curl http://ext.nicovideo.jp/api/getthumbinfo/$1 |grep "<tag>" | sed 's/<tag>//' | sed 's/<\/tag>//')
+xml=$(curl http://ext.nicovideo.jp/api/getthumbinfo/$1)
+title=$(echo "$xml" |grep "<title>" | sed 's/<title>//' | sed 's/<\/title>//')
+tag=$(echo "$xml" |grep "<tag>" | sed 's/<tag>//' | sed 's/<\/tag>//')
 comment=$(cat << EOS
-下記タグで独占荒らしを行い、他のタグの追加を妨害するユーザーがいるため、タグ編集禁止の対応をお願いします。
+下記タグで独占を行い、他のタグの追加を妨害する検索妨害行為を行なっています。
+他のタグを追加しても即時削除とタグ追加を行う過剰編集でサーバーに負荷をかけているため、タグ編集禁止の対応をお願いします。
 EOS)
 form=$(cat << EOS
 <html>
 <body>
+$title<br>
+<a href="http://www.nicovideo.jp/watch/$1" target="_blank">http://www.nicovideo.jp/watch/$1</a><br>
 <form action="https://secure.nicovideo.jp/secure/comment_allegation/$1" name="comment_allegation" id="comment_allegation" method="post">
 <input type="hidden" name="mode" id="mode" value="confirm">
 <input type="hidden" name="select_allegation" id="select_allegation">
@@ -34,6 +39,6 @@ $tag<br>
 </body>
 </html>
 EOS)
-echo "$form" > form.html
-open form.html
+echo "$form" > $1.html
+open $1.html
 exit 0
